@@ -1,0 +1,13 @@
+{
+  "name": "DrawingGame",
+  "version": "0.0.2",
+  "dependencies":
+  {
+    "node-static" : "latest",
+    "socket.io" : ">= 0.9.6"
+ },
+  "engines": {
+    "node": "0.10.26",
+    "npm": "1.2.x"
+  }
+}

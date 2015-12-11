@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<head>
+<meta name="google-site-verification" content="WC9FfWNfVRyJn8pWPXTHM4uCe_p-U13-iz0dV8A6puk" />
+<meta charset="utf-8"/>
+<meta property="og:site_name" content="Real time white board for drawing on line, share photo and capture image from webcam"/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="http://vrobbi-nodedrawing.herokuapp.com"/>
+<meta property="fb:admins" content="100004633505284" />
+<meta property="og:title" content="Real time whiteboard collaborative with chat in html5 and websocket"/>
+<meta property="fb:app_id"  content="508864332486444" />
+<meta name="keywords" content="lavagna collaborativa, disegnare on line, applicazione real time, multiuser whiteboard, realtime application, drawing on line, drawing game, html5, web 2.0, software, internet, image capture, webcam" />
+<meta name="description" content="lavagna multiutente condivisa in tempo reale, multiuser whiteboard real time application, draw on line and share your draw with all on the net" />
+
+        <meta charset="utf-8" />
+        <title>Real time whiteboard collaborative multicolor multiusers with chat and upload images</title>
+
+        <!-- The stylesheets -->
+        <link rel="stylesheet" href="assets/css/styles.css" />
+		<link href="js/jquery.minicolors.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src="js/jquery.minicolors.js"></script>
+		        <!--[if lt IE 9]>
+          <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+		
+	<script type="text/javascript">	
+		$(document).ready(function() {
+	$("#monitorcam").draggable({ cursor: "move" });			
+	document.getElementById('monitorcam').style.display ='none';	
+	$('#minicolore').minicolors(
+	{
+	opacity:true
+	}
+	);	
+	});	
+	
+	
+	
+	</script>
+    </head>    
+    <body>
+	<div id="monitorcam" title="drag and drop this monitor" alt="drag and drop this monitor"><video id="video" style="width:320px;height:240px;" autoplay></video></div>	
+<div id="controlli">	
+<div style="float:left;">
+<button id="cancellalavagna">Clear your board</button><button id="salvafoto">Save the draw</button><button id="inforoom">Create a room</button><br />
+<select id="spessore">
+  <option value="3" selected="selected">size pencil</option>
+  <option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+    <option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="13">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+</select>	
+<input type="text" class="minicolors" id="minicolore" value="#000000" data-opacity="1.0" /><select id="fontsize">
+  <option value="14" selected="selected">font size</option>
+  <option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+</select><br />
+At first double click on the whiteboard<br />where you want to place your photo,<br />
+then upload file .jpg to share with all<br />
+<input type="file" id="file-input"> <br />
+<input type="text" id="scrivi" size="36" /> <br />
+Double click on the whiteboard where <br />you want to place the text<br />or enter if you want to chat
+<div id="testichat"></div>
+<audio id="audio1" src="assets/success.wav"  autobuffer></audio><br />
+<input id="faisuonare" type="checkbox" checked />allow to ring my bell<button id="suonacamp">Ring a bell to other users</button><br />
+<button id="catturacam">Get image from webcam</button><button id="vedomonitor"> Show webcam monitor</button><br /><input id="autocamabi" type="checkbox" value="" />Auto capture image every <select id="tempocam">
+<option value="1000">1</option>
+<option value="2000">2</option>
+<option value="4000">4</option>
+  <option value="8000" selected="selected">8</option>
+  <option value="20000">20</option>
+	<option value="60000">60</option>
+	<option value="120000">120</option>
+    <option value="300000">300</option>
+	<option value="600000">600</option>
+	</select>seconds<br />
+<button id="audiocall" disabled="disabled">OPEN VOICE CALL</button><button id="videocall" disabled="disabled">OPEN VIDEO CALL</button>
+
+</div>
+<div id="frecce" onMouseOver="javascript:document.getElementById('frecce').style.backgroundColor ='#ffffff';">
+<div style="padding-bottom:50%;vertical-align:middle;">
+<span style="font-size:28px;font-weight:"600">&nbsp;<br />&nbsp;<br />P<br />A<br />N<br />E<br />L</span>
+</div>
+
+</div>
+</div>
+		<div id="cursors">
+	    	<!-- The mouse pointers will be created here -->
+		</div>
+		
+  <img id="canvasimg" alt="" style="position:absolute;left:300px;top:10px;border:none;cursor:pointer;width:1900px;height:1000px;visibility:hidden;" /> 
+		<canvas id="paper" width="1900" height="1000">
+			Your browser needs to support canvas for this to work!
+		</canvas>
+		
+	<canvas id="paper1" style="display:none;" width="320" height="240"> </canvas>
+		<hgroup id="instructions">		
+			<h1>Draw anywhere!</h1> 
+			<h2>You will see everyone else who's doing the same.</h2>
+			<h3>If you like this web application please click the button LIKE at the bottom of this page</h3>
+		</hgroup>
+		
+        <footer>
+				
+	        <h2><a href="mailto:vrobbi@libero.it" target='_blank'>send me a mail if you want to customer this app</a>&nbsp;&nbsp;&nbsp;<a href="http://www.nuovoweb.eu" target="_blank">www.nuovoweb.eu</a>&nbsp;&nbsp;&nbsp;<a href="https://github.com/vrobbi/whiteboard
+" target="_blank">sources on github</a></h2>
+            <p class='tzine' id='onlineCounter' href=''>Users connected: 0</p>
+<div id="fb-root" style="position:absolute;left:0px;bottom:-10px;width:100px;height:auto;"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "http://connect.facebook.net/it_IT/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-href="http://vrobbi-nodedrawing.herokuapp.com" data-send="false" data-width="210" data-show-faces="true" data-font="arial"></div>
+        </footer>
+        
+        <!-- JavaScript includes. Notice that socket.io.js is served by node.js -->
+		<script src="/socket.io/socket.io.js"></script>    
+	<script src="assets/js/script.js"></script>
+    </body>
+</html>         

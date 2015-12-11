@@ -1,0 +1,5 @@
+{
+  "key":"<api-key-here>",
+  "secret":"<secret-here>",
+  "bucket":"<your-bucket-name>"
+}
