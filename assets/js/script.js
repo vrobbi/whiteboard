@@ -16,7 +16,7 @@ stanza  = location.href.substring(location.href.indexOf('#')+1);
 	
 	var positionx ='23';
 	var positiony='0';
-
+	
 	var doc = jQuery(document),
 		canvas = jQuery('#paper'),
 		canvas1 = jQuery('#paper1'),
@@ -279,12 +279,9 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 
 	var prev = {};
 
-    // To manage touch events
-    // http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript/
-
-  //  document.addEventListener("touchstart", touchHandler, true);
-  
-// document.addEventListener("blur", cambiacolore(), true);
+ // canvas.addEventListener('touchstart', sketchpad_touchStart, false);
+//            canvas.addEventListener('touchend', sketchpad_touchEnd, false);
+     //       canvas.addEventListener('touchmove', sketchpad_touchMove, false);
 		  
    document.addEventListener("change", cambiaspessore, true);
   function cambiaspessore () {
