@@ -69,6 +69,7 @@ if (process.env.HEROKU === 'true') {
 // Listen for incoming connections from clients
 io.sockets.on('connection', function (socket) {
 socket.join('public');   
+console.log('connesso');
 
 /*	   				  
 									  
