@@ -17,6 +17,7 @@
         <title>Real time whiteboard collaborative multicolor multiusers with chat and upload images</title>
 
         <!-- The stylesheets -->
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
         <link rel="stylesheet" href="assets/css/styles.css" />
 		<link href="js/jquery.minicolors.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
@@ -43,31 +44,8 @@
 	<div id="monitorcam" title="drag and drop this monitor" alt="drag and drop this monitor"><video id="video" style="width:320px;height:240px;" autoplay></video></div>	
 <div id="controlli">	
 <div style="float:left;">
-<button id="cancellalavagna">Clear your board</button><button id="salvafoto">Save the draw</button><button id="inforoom">Create a room</button><br />
-<select id="spessore">
-  <option value="3" selected="selected">size pencil</option>
-  <option value="1">1</option>
-	<option value="2">2</option>
-	<option value="3">3</option>
-    <option value="4">4</option>
-	<option value="5">5</option>
-	<option value="6">6</option>
-	<option value="7">7</option>
-	<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option>
-<option value="13">13</option>
-<option value="13">14</option>
-<option value="15">15</option>
-<option value="16">16</option>
-<option value="17">17</option>
-<option value="18">18</option>
-<option value="19">19</option>
-<option value="20">20</option>
-</select>	
-<input type="text" class="minicolors" id="minicolore" value="#000000" data-opacity="1.0" /><select id="fontsize">
+<button id="cancellalavagna" class="btn btn-primary btn-sm">Clear my board</button><input type="text" class="minicolors" id="minicolore" value="#000000" data-opacity="1.0" /><br />
+<select id="fontsize" class="form-control input-sm">
   <option value="14" selected="selected">font size</option>
   <option value="8">8</option>
 <option value="9">9</option>
@@ -92,16 +70,36 @@
 <option value="28">28</option>
 <option value="29">29</option>
 <option value="30">30</option>
-</select><br />
-At first double click on the whiteboard<br />where you want to place your photo,<br />
-then upload file .jpg to share with all<br />
-<input type="file" id="file-input"> <br />
-<input type="text" id="scrivi" size="36" /> <br />
-Double click on the whiteboard where <br />you want to place the text<br />or enter if you want to chat
+</select>
+<select id="spessore" class="form-control input-sm">
+  <option value="3" selected="selected">size pencil</option>
+  <option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+    <option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="13">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+</select>
+<input type="file" id="file-input" class="form-control input-sm">
+<input type="text" id="scrivi" size="36" class="form-control input-sm" placeholder="Write text then 'enter' to chat" /><br />
 <div id="testichat"></div>
 <audio id="audio1" src="assets/success.wav"  autobuffer></audio><br />
-<input id="faisuonare" type="checkbox" checked />allow to ring my bell<button id="suonacamp">Ring a bell to other users</button><br />
-<button id="catturacam">Get image from webcam</button><button id="vedomonitor"> Show webcam monitor</button><br /><input id="autocamabi" type="checkbox" value="" />Auto capture image every <select id="tempocam">
+<button id="catturacam" class="btn btn-primary btn-sm">photo webcam</button><button id="audiocall" disabled="disabled" class="btn btn-primary btn-sm">OPEN VOICE CALL</button><br />
+<input id="autocamabi" type="checkbox" value="" />Capture image every <select id="tempocam" class= "form-control input-sm">
 <option value="1000">1</option>
 <option value="2000">2</option>
 <option value="4000">4</option>
@@ -112,8 +110,6 @@ Double click on the whiteboard where <br />you want to place the text<br />or en
     <option value="300000">300</option>
 	<option value="600000">600</option>
 	</select>seconds<br />
-<button id="audiocall" disabled="disabled">OPEN VOICE CALL</button><button id="videocall" disabled="disabled">OPEN VIDEO CALL</button>
-
 </div>
 <div id="frecce" onMouseOver="javascript:document.getElementById('frecce').style.backgroundColor ='#ffffff';">
 <div style="padding-bottom:50%;vertical-align:middle;">
@@ -122,15 +118,10 @@ Double click on the whiteboard where <br />you want to place the text<br />or en
 
 </div>
 </div>
-		<div id="cursors">
-	    	<!-- The mouse pointers will be created here -->
+		<div id="cursors">   <!-- The mouse pointers will be created here -->
 		</div>
 		
-  <img id="canvasimg" alt="" style="position:absolute;left:300px;top:10px;border:none;cursor:pointer;width:1900px;height:1000px;visibility:hidden;" /> 
-		<canvas id="paper" width="1900" height="1000">
-			Your browser needs to support canvas for this to work!
-		</canvas>
-		
+ <canvas id="paper">Your browser needs to support canvas for this to work!</canvas>		
 	<canvas id="paper1" style="display:none;" width="320" height="240"> </canvas>
 		<hgroup id="instructions">		
 			<h1>Draw anywhere!</h1> 

@@ -80,6 +80,7 @@ h3{
 
 #cursors{
 	position:relative;
+	
 }
 
 #cursors .cursor {
@@ -88,6 +89,7 @@ h3{
 	height:22px;
 	background:url('../img/pointer.png') no-repeat -4px 0;
 	font-size:10px;
+	z-index:8;
 }
 
 .cursor .identif{
@@ -99,11 +101,11 @@ margin-top:15px;
 
 #testichat {
 position:relative;
-top:6px;
+top:3px;
 left:3px;
 border:1px green solid;
 width:250px;
-height:180px;
+height:130px;
 font-size:11px;
 overflow:auto;
 }      
@@ -125,19 +127,17 @@ background-color: #09ff00;
 #frecce {
 float:right;
 background-color:transparent;
-height:445px;
+height:95%;
 }
 
-#paper {
-    background-color: #ffffff;
-}
+
 
 #controlli  {
 position:absolute;
-top:6px;
+top:4px;
 left:-282px;
 width:300px;
-height:480px;
+height:380px;
 background-color:#ffffff;
 border:1px red solid;
 z-index:10;
@@ -161,7 +161,7 @@ left:170px;
 width:320px;
 height:240px;
 border:2px green solid;
-z-index:120
+z-index:60
 }
 /*----------------------------
 	The Footer
@@ -176,7 +176,7 @@ footer{
 	left: 0;
 	position: fixed;
 	width: 100%;
-	z-index: 100000;
+	z-index: 90;
 }
 
 footer h2{
@@ -220,8 +220,47 @@ font-size:12px;
 margin:0;
 }
 
+/*
+#canvasimg {
+position:absolute;
+left:300px;
+top:10px;
+border:none;
+cursor:pointer;
+width:40px;
+height:30px;
+visibility:hidden;
+display:none;
+}
+*/
+
+
+
+#paper {
+border:1px green solid;
+    background-color: #ffffff;
+	position:absolute; /* Necessary for correct mouse co-ords in Firefox */
+	overflow:hidden;
+	bottom:0;
+	right:0;
+	}
+	
+#paper1 {
+position:absolute; /* Necessary for correct mouse co-ords in Firefox */
+display:block;
+width:320px;
+height:240px;
+bottom:0;
+right:0;
+	}	
+
 button::-moz-focus-inner {
     padding: 0;
     border: 0;
 	font-size:12px
+}
+
+.form-control {
+width:auto;
+display:inline;
 }

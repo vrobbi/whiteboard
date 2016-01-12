@@ -16,10 +16,13 @@ stanza  = location.href.substring(location.href.indexOf('#')+1);
 	
 	var positionx ='23';
 	var positiony='0';
-	
+	var touchX,touchY;
+	var iniziotocco= true;
+		
 	var doc = jQuery(document),
 		canvas = jQuery('#paper'),
 		canvas1 = jQuery('#paper1'),
+		frecce =  document.getElementById('frecce'),
 	instructions = jQuery('#instructions');
 var color = '#000000';
 	// A flag for drawing activity
@@ -46,8 +49,29 @@ var spessore = jQuery('#spessore').value;
 var colorem;
     // Force canvas to dynamically change its size to the same width/height
     // as the browser window.
-    canvas[0].width = document.body.clientWidth;
-    canvas[0].height = document.body.clientHeight;
+//  canvas[0].width = document.body.clientWidth;
+//  canvas[0].height = document.body.clientHeight;
+	
+canvas[0].width =window.innerWidth;
+canvas[0].height = window.innerHeight -0;
+
+
+        if (ctx) {
+            // React to mouse events on the canvas, and mouseup on the entire document
+       //    canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
+     //       canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
+    //     window.addEventListener('mouseup', sketchpad_mouseUp, false);
+
+            // React to touch events on the canvas
+    //        canvas.addEventListener('touchstart', sketchpad_touchStart, false);
+     //       canvas.addEventListener('touchend', sketchpad_touchEnd, false);
+     //       canvas.addEventListener('touchmove', sketchpad_touchMove, false);
+			
+			window.addEventListener('resize', resizecanvas, false);
+			window.addEventListener('orientationchange', resizecanvas, false);
+			resizecanvas();
+        }
+
 
     // ctx setup
     ctx.lineCap = 'round';
@@ -86,7 +110,7 @@ stanza = data.room;
  jQuery('<div class="testochatser"><span>FROM SERVER:</span> '+ data.inforoom + data.listautenti +'</div>').appendTo('#testichat');
  document.getElementById('frecce').style.backgroundColor ='#ffff00';
  document.getElementById('audiocall').disabled = false;
- document.getElementById('videocall').disabled = false;
+// document.getElementById('videocall').disabled = false;
 	});
 
 
@@ -181,25 +205,12 @@ ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
  
   
 jQuery('#audiocall').click(function (){
-window.open('http://www.nuovoweb.eu/webrtc/soloaudio.html#' + stanza, 'WEBRTC VOICE CALL','width=700,height=400');									  
+window.open('https://vrobbi-signalmaster.herokuapp.com/soloaudio.html#' + stanza, 'WEBRTC VOICE CALL','width=700,height=400');									  
 });
 
-jQuery('#videocall').click(function (){
-window.open('http://www.nuovoweb.eu/webrtc/#' + stanza, 'WEBRTC VIDEO/AUDIO CALL','width=800,height=400');								  
-});
-
-  
-  jQuery('#suonacamp').click(function (){
-
-socket.emit('suonacamp',{
-				'id': id,
-				'room' : stanza
-			});
-
-});  
  
  jQuery('#inforoom').click(function (){
-alert('TO CREATE YOUR OWN PRIVATE ROOM, TYPE AT THE END OF THE INTERNET ADDRESS, A SEQUENCE OF CHARACTERS OR NUMBERS PRECEDED BY THE CHARACTER # FOR EXAMPLE:\n\r http:\/\/vrobbi-nodedrawing.herokuapp.com\/#myroom123  WHERE \'myroom123\' WILL BE YOUR PRIVATE ROOM\n\r REMEMBER TO WRITE ONLY CHARACTERS OF TYPE LETTERS AND/OR NUMBERS THEN SEND THIS ADDRESS TO YOUR FRIENDS THAT YOU LIKE TO SHARE PRIVATELY WITH THE USE OF THIS BOARD');						  
+alert('TO CREATE YOUR OWN PRIVATE ROOM, TYPE AT THE END OF THE INTERNET ADDRESS, A SEQUENCE OF CHARACTERS OR NUMBERS PRECEDED BY THE CHARACTER # FOR EXAMPLE:\n\r https:\/\/vrobbi-nodedrawing.herokuapp.com\/#myroom123  WHERE \'myroom123\' WILL BE YOUR PRIVATE ROOM\n\r REMEMBER TO WRITE ONLY CHARACTERS OF TYPE LETTERS AND/OR NUMBERS THEN SEND THIS ADDRESS TO YOUR FRIENDS THAT YOU LIKE TO SHARE PRIVATELY WITH THE USE OF THIS BOARD');						  
 }); 
  
   socket.on('camperaltriser', function (data) {
@@ -238,13 +249,6 @@ var objDiv1 = document.getElementById("testichat");
 objDiv1.scrollTop = objDiv1.scrollHeight;
 	});
   
-  socket.on('suonacampser', function (data) {
- if (document.getElementById('faisuonare').checked) {
-  //    var thissound=document.getElementById("audio1");
-document.getElementById("audio1").play();												  
-			 }	
-		});
-  
   socket.on('listautentiser', function (data) {
 jQuery('<div class="testochatser"><span>FROM SERVER:</span> '+ data.listautenti +'</div>').appendTo('#testichat');
 document.getElementById('frecce').style.backgroundColor ='#ffff00'; 
@@ -257,10 +261,12 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 			cursors[data.id] = jQuery('<div class="cursor"><div class="identif">'+ data.usernamerem +'</div>').appendTo('#cursors');
 		}
 	// Move the mouse pointer
-		cursors[data.id].css({
+	
+	cursors[data.id].css({
 			'left' : data.x,
 			'top' : data.y
-		});
+		});	
+		
 			
 		// Is the user drawing?
 		if(data.drawing && clients[data.id]){
@@ -269,13 +275,45 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 			// the previous position of this user's mouse pointer
 
             ctx.strokeStyle = data.color;
-			drawLinerem(clients[data.id].x, clients[data.id].y, data.x, data.y,data.spessremo,data.color);
+		//	drawLinerem(clients[data.id].x, clients[data.id].y, data.x, data.y,data.spessremo,data.color);
+		drawLinerem(clients[data.id].x, clients[data.id].y, data.x, data.y,data.spessremo,data.color);
+		}
+		
+		// Saving the current client state
+	clients[data.id] = data;
+	clients[data.id].updated = jQuery.now() ;	
+                });
+	
+	
+	socket.on('toccomoving', function (data) {
+		
+		if(! (data.id in clients)){
+			// a new user has come online. create a cursor for them
+			cursors[data.id] = jQuery('<div class="cursor"><div class="identif">'+ data.usernamerem +'</div>').appendTo('#cursors');
+		}
+	// Move the mouse pointer
+		
+			
+		// Is the user drawing?
+		if(data.drawing && clients[data.id]){
+			
+		cursors[data.id].css({
+			'left' : data.x,
+			'top' : data.y
+		});	
+			
+			// Draw a line on the canvas. clients[data.id] holds
+			// the previous position of this user's mouse pointer
+
+            ctx.strokeStyle = data.color;
+		//	drawLinerem(clients[data.id].x, clients[data.id].y, data.x, data.y,data.spessremo,data.color);
+		drawLinerem(clients[data.id].x, clients[data.id].y, data.x, data.y,data.spessremo,data.color);
 		}
 		
 		// Saving the current client state
 		clients[data.id] = data;
-		clients[data.id].updated = jQuery.now();
-	});
+	clients[data.id].updated = jQuery.now() ;
+	 });
 
 	var prev = {};
 
@@ -283,10 +321,75 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 //            canvas.addEventListener('touchend', sketchpad_touchEnd, false);
      //       canvas.addEventListener('touchmove', sketchpad_touchMove, false);
 		  
-   document.addEventListener("change", cambiaspessore, true);
+   canvas[0].addEventListener("change", cambiaspessore, true);
   function cambiaspessore () {
 	   ctx.lineWidth = document.getElementById('spessore').value;	   
 }  
+
+frecce.addEventListener('touchstart', function (e) {
+e.preventDefault();
+if(document.getElementById("controlli").style.left ===  0 + "px") {
+document.getElementById("controlli").style.left =  -282  + "px";
+document.getElementById('frecce').style.backgroundColor ='#ffffff';
+}
+else {
+document.getElementById("controlli").style.left =  0 + "px";	
+}
+}, false);
+
+//  code to draw on canvas
+canvas[0].addEventListener('touchstart', function (e) {
+e.preventDefault();
+getTouchPos();
+socket.emit('mousemove',{
+				'x': touchX,
+				'y': touchY,
+				'drawing': drawing,
+                'color': $('#minicolore').minicolors('rgbaString'),
+				'id': id,
+				'usernamerem' : username,
+				'spessremo' : document.getElementById('spessore').value,
+				'room' : stanza
+			});	
+drawing = true;
+// Hide the instructions
+		instructions.fadeOut();
+
+}, false);
+
+canvas[0].addEventListener('touchend', function (e) {
+e.preventDefault();
+drawing = false;
+}, false);
+
+canvas[0].addEventListener('touchmove', function (e) {
+e.preventDefault();
+
+if(jQuery.now() - lastEmit > 30){
+
+if(drawing){
+
+prev.x = touchX;
+prev.y = touchY;
+	getTouchPos();
+	        
+			drawLine(prev.x, prev.y, touchX, touchY);
+			
+			lastEmit = jQuery.now();		
+		socket.emit('mousemove',{
+				'x': touchX,
+				'y': touchY,
+				'drawing': drawing,
+                'color': $('#minicolore').minicolors('rgbaString'),
+				'id': id,
+				'usernamerem' : username,
+				'spessremo' : document.getElementById('spessore').value,
+				'room' : stanza
+			});	
+	
+		} }
+
+}, false);
       
 	canvas.on('mousedown', function(e){
 		e.preventDefault();
@@ -298,7 +401,7 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 		instructions.fadeOut();
 	});
 	
-	doc.bind('mouseup mouseleave', function(){
+	canvas.bind('mouseup mouseleave', function(){
  
 		drawing = false;
 	});
@@ -309,7 +412,15 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 								 
 		if(jQuery.now() - lastEmit > 30){
 			
-//	document.getElementById('risultato').innerHTML = $('#minicolore').minicolors('rgbaString');
+if(drawing){
+
+       //     ctx.strokeStyle = document.getElementById('minicolore').value;
+			drawLine(prev.x, prev.y, e.pageX, e.pageY);
+			prev.x = e.pageX;
+			prev.y = e.pageY;
+			lastEmit = jQuery.now();
+	}	
+
 			
 			socket.emit('mousemove',{
 				'x': e.pageX,
@@ -321,25 +432,18 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 				'spessremo' : document.getElementById('spessore').value,
 				'room' : stanza
 			});
-			lastEmit = jQuery.now();
+			
 		}
 		// Draw a line for the current user's movement, as it is
 		// not received in the socket.on('moving') event above
 		
-		if(drawing){
-
-       //     ctx.strokeStyle = document.getElementById('minicolore').value;
-			drawLine(prev.x, prev.y, e.pageX, e.pageY);
-			prev.x = e.pageX;
-			prev.y = e.pageY;
-		}
-	});
+			});
 	
 	// Remove inactive clients after 10 seconds of inactivity
     setInterval(function(){
         var totalOnline = 0;
         for(var ident in clients){
-            if(jQuery.now() - clients[ident].updated > 16000){
+            if(jQuery.now() - clients[ident].updated > 8000){
 
                 // Last update was more than 10 seconds ago.
                 // This user has probably closed the page
@@ -352,7 +456,7 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 			 totalOnline++;			
         }}
         jQuery('#onlineCounter').html('Users connected: '+totalOnline);
-    },16000);
+    },8000);
 //// end setinterval function ****************************
 	function drawLine(fromx, fromy, tox, toy){
 		ctx.strokeStyle = $('#minicolore').minicolors('rgbaString');
@@ -366,7 +470,7 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 	function drawLinerem(fromx, fromy, tox, toy,spessore,colorem){
 		ctx.strokeStyle = colorem;
        ctx.lineWidth = spessore;	
-        ctx.beginPath();
+       	ctx.beginPath();
 		ctx.moveTo(fromx, fromy);
 		ctx.lineTo(tox, toy);
 		ctx.stroke();
@@ -468,7 +572,30 @@ document.getElementById('tempocam').disabled = false;
 }   
   }, false);
 
-})();
+})();    /////   uscita da (function()
+
+
+function resizecanvas (){
+var imgdata =  ctx.getImageData(0,0, canvas[0].width, canvas[0].height);
+canvas[0].width =window.innerWidth;
+canvas[0].height = window.innerHeight -0;
+ctx.putImageData(imgdata,0,0);
+}	
+
+function getTouchPos(e) {
+        if (!e)
+            var e = event;
+
+        if(e.touches) {
+            if (e.touches.length == 1) { // Only deal with one finger
+                var touch = e.touches[0]; // Get the information for finger #1
+             //   touchX=touch.pageX-touch.target.offsetLeft;
+               // touchY=touch.pageY-touch.target.offsetTop;
+			      touchX=touch.pageX;
+                touchY=touch.pageY;
+            }
+        }
+    }
 
 });
 

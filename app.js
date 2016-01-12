@@ -170,11 +170,11 @@ socket.broadcast.to(data.room).emit('listautentiser', {
 	// Start listening for mouse move events
 	socket.on('mousemove', function (data) {
 			
-	//	if (data.room !='' || data.room !='public') {		
 		socket.broadcast.to(data.room).emit('moving', data);
-	    //	}  
+	     
 	});
 	
+		
 socket.on('salvasulserver', function (data) {
 		
 	//	var object = { foo: data.dataserver };

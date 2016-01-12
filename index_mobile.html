@@ -87,12 +87,7 @@ camdaclient.onload = function() {
 //	imgdaclient.src = data.fileperaltri;
 ctx.drawImage(camdaclient,positionxcam,positionycam,320,240);
 }
-});	
- 				
-
-
-
-	
+});		
  
     // Draws a line between the specified position on the supplied canvas name
     // Parameters are: A canvas context, the x position, the y position, the size of the dot
@@ -363,15 +358,6 @@ canvas.height = window.innerHeight -46;
 ctx.putImageData(imgdata,0,0);
 }	
 
-function showhidemonitor (){
-if(document.getElementById('monitorcam').style.display === 'none')   { 
-document.getElementById("monitorcam").style.display = 'block';
-document.getElementById('vedomonitor').innerHTML = 'Hide monitor';
-} else  {
-document.getElementById('monitorcam').style.display = 'none';	
-document.getElementById('vedomonitor').innerHTML = 'Show monitor';
-}										  
-};
 
 jQuery('#timecam').change(function() {changetime(this.value)});
 jQuery('#clearbutton').click(function() {clearCanvas(canvas,ctx)});
