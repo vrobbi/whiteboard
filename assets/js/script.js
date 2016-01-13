@@ -352,6 +352,7 @@ socket.emit('mousemove',{
 				'room' : stanza
 			});	
 drawing = true;
+jQuery(".cursor").css( "zIndex", 6);
 // Hide the instructions
 		instructions.fadeOut();
 
@@ -360,15 +361,15 @@ drawing = true;
 canvas[0].addEventListener('touchend', function (e) {
 e.preventDefault();
 drawing = false;
+jQuery(".cursor").css( "zIndex", 8);
 }, false);
 
 canvas[0].addEventListener('touchmove', function (e) {
 e.preventDefault();
 
-if(jQuery.now() - lastEmit > 30){
+if(jQuery.now() - lastEmit > 25){
 
 if(drawing){
-
 prev.x = touchX;
 prev.y = touchY;
 	getTouchPos();
@@ -396,24 +397,23 @@ prev.y = touchY;
 		drawing = true;
 		prev.x = e.pageX;
 		prev.y = e.pageY;
-		
+jQuery(".cursor").css( "zIndex", 6);		
 		// Hide the instructions
 		instructions.fadeOut();
 	});
 	
 	canvas.bind('mouseup mouseleave', function(){
- 
-		drawing = false;
+drawing = false;
+jQuery(".cursor").css( "zIndex", 8);
 	});
 
 	var lastEmit = jQuery.now();
 
 	doc.on('mousemove', function(e){
 								 
-		if(jQuery.now() - lastEmit > 30){
+		if(jQuery.now() - lastEmit > 25){
 			
 if(drawing){
-
        //     ctx.strokeStyle = document.getElementById('minicolore').value;
 			drawLine(prev.x, prev.y, e.pageX, e.pageY);
 			prev.x = e.pageX;

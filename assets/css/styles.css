@@ -80,8 +80,7 @@ h3{
 
 #cursors{
 	position:relative;
-	
-}
+	}
 
 #cursors .cursor {
 	position:absolute;
@@ -90,7 +89,7 @@ h3{
 	background:url('../img/pointer.png') no-repeat -4px 0;
 	font-size:10px;
 	z-index:8;
-}
+		}
 
 .cursor .identif{
 background-color:#FFFF00;
@@ -127,7 +126,7 @@ background-color: #09ff00;
 #frecce {
 float:right;
 background-color:transparent;
-height:95%;
+height:97%;
 }
 
 
@@ -137,10 +136,10 @@ position:absolute;
 top:4px;
 left:-282px;
 width:300px;
-height:380px;
+height:95%;
 background-color:#ffffff;
 border:1px red solid;
-z-index:10;
+z-index:12;
 font-size:12px;
 }
 #controlli:hover  {
@@ -238,16 +237,19 @@ display:none;
 
 #paper {
 border:1px green solid;
-    background-color: #ffffff;
+    background-color:transparent;
 	position:absolute; /* Necessary for correct mouse co-ords in Firefox */
 	overflow:hidden;
+	height:auto;
+	width: auto;
 	bottom:0;
 	right:0;
+	z-index:6;
 	}
 	
 #paper1 {
 position:absolute; /* Necessary for correct mouse co-ords in Firefox */
-display:block;
+display:hidden;
 width:320px;
 height:240px;
 bottom:0;
