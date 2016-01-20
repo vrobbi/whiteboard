@@ -38,7 +38,17 @@ var color = '#000000';
 if(!username)
 {
 	username = prompt("Hey there, insert your nick name, please", "");
+	
+/*	bootbox.prompt("Hey there, insert your nick name, please", function(result) {                
+  if (result === null) {                                             
+    Example.show("Prompt dismissed");                              
+  } else {
+    Example.show("Hi <b>"+result+"</b>");                          
+  }
+});  */
+
 }
+
 
 username = username.substr(0,20);	
 var socket = io.connect(url); 
@@ -57,16 +67,7 @@ canvas[0].height = window.innerHeight -0;
 
 
         if (ctx) {
-            // React to mouse events on the canvas, and mouseup on the entire document
-       //    canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
-     //       canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
-    //     window.addEventListener('mouseup', sketchpad_mouseUp, false);
-
-            // React to touch events on the canvas
-    //        canvas.addEventListener('touchstart', sketchpad_touchStart, false);
-     //       canvas.addEventListener('touchend', sketchpad_touchEnd, false);
-     //       canvas.addEventListener('touchmove', sketchpad_touchMove, false);
-			
+  
 			window.addEventListener('resize', resizecanvas, false);
 			window.addEventListener('orientationchange', resizecanvas, false);
 			resizecanvas();
@@ -79,10 +80,9 @@ canvas[0].height = window.innerHeight -0;
     ctx.lineWidth =  2;
  ctx.font = "20px Tahoma";
 
-	// Generate an unique ID
-	var id = Math.round(jQuery.now()*Math.random());
+var id = Math.round(jQuery.now()*Math.random());
 if (username =='')  {username = id }
-//url.substring(url.indexOf('#')+1);
+
 
 if (stanza.length > 2) {
 socket.emit('setuproom',{

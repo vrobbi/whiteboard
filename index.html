@@ -13,7 +13,7 @@
 
         <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>Real time whiteboard collaborative multicolor multiusers with chat and upload images</title>
 
         <!-- The stylesheets -->
@@ -23,6 +23,7 @@
 		<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 		<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script src="js/jquery.minicolors.js"></script>
+		<script src="js/bootbox.min.js"></script>
 		        <!--[if lt IE 9]>
           <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -43,8 +44,8 @@
     <body>
 	<div id="monitorcam" title="drag and drop this monitor" alt="drag and drop this monitor"><video id="video" style="width:320px;height:240px;" autoplay></video></div>	
 <div id="controlli">	
-<div style="float:left;">
-<button id="cancellalavagna" class="btn btn-primary btn-sm">Clear my board</button>&nbsp;&nbsp;<input type="text" class="minicolors" id="minicolore" value="#000000" data-opacity="1.0" /><br />
+<div style="float:left;width:90%;height:auto">
+<button id="cancellalavagna" class="btn btn-primary btn-sm">Clear my board</button>&nbsp;&nbsp;<input type="text" class="minicolors form-control input-sm" id="minicolore" value="#000000" data-opacity="1.0" /><br />
 <select id="fontsize" class="form-control input-sm">
   <option value="14" selected="selected">font size</option>
   <option value="8">8</option>
@@ -97,9 +98,9 @@
 <input type="file" id="file-input" class="form-control input-sm">
 <input type="text" id="scrivi" size="auto" class="form-control input-sm" placeholder="Write text then 'enter' to chat" /><br />
 <div id="testichat"></div>
-<audio id="audio1" src="assets/success.wav"  autobuffer></audio><br />
-<button id="catturacam" class="btn btn-primary btn-sm">photo webcam</button><button id="audiocall" disabled="disabled" class="btn btn-primary btn-sm">OPEN VOICE CALL</button><br />
-<input id="autocamabi" type="checkbox" value="" />Capture image every <select id="tempocam" class= "form-control input-sm">
+<audio id="audio1" src="assets/success.wav"  autobuffer></audio>
+<button id="catturacam" class="btn btn-primary btn-sm">PHOTO WEBCAM</button><button id="audiocall" disabled="disabled" class="btn btn-primary btn-sm">OPEN VOICE CALL</button><br />
+&nbsp;<label class="checkbox-inline"><input type="checkbox" id="autocamabi" value="">Capture image every</label><select id="tempocam" class= "form-control input-sm">
 <option value="1000">1</option>
 <option value="2000">2</option>
 <option value="4000">4</option>
@@ -112,9 +113,8 @@
 	</select>seconds<br />
 </div>
 <div id="frecce" onMouseOver="javascript:document.getElementById('frecce').style.backgroundColor ='#ffffff';">
-<div style="padding-bottom:50%;vertical-align:middle;">
+
 <span style="font-size:28px;font-weight:"600">&nbsp;<br />&nbsp;<br />P<br />A<br />N<br />E<br />L</span>
-</div>
 
 </div>
 </div>
