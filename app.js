@@ -214,6 +214,10 @@ socket.on('fileperaltri', function (data) {
 	socket.broadcast.to(data.room).emit('fileperaltriser', data);
 	});	
 
+socket.on('rubber', function (data) {
+socket.broadcast.to(data.room).emit('rubberser', data);
+	});	
+
 socket.on('camperaltri', function (data) {
 	 socket.broadcast.to(data.room).emit('camperaltriser', data);		
 	});	

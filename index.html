@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta property="og:site_name" content="Real time white board for drawing on line, share photo and capture image from webcam"/>
 <meta property="og:type" content="article"/>
-<meta property="og:url" content="http://vrobbi-nodedrawing.herokuapp.com"/>
+<meta property="og:url" content="https://vrobbi-nodedrawing.herokuapp.com"/>
 <meta property="fb:admins" content="100004633505284" />
 <meta property="og:title" content="Real time whiteboard collaborative with chat in html5 and websocket"/>
 <meta property="fb:app_id"  content="508864332486444" />
@@ -22,16 +22,18 @@
 		<link href="js/jquery.minicolors.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 		<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		   <script src="js/touch-punch.min.js"></script>
 		<script src="js/jquery.minicolors.js"></script>
 		<script src="js/bootbox.min.js"></script>
+		
 		        <!--[if lt IE 9]>
           <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 		
 	<script type="text/javascript">	
 		$(document).ready(function() {
-	$("#monitorcam").draggable({ cursor: "move" });			
-	document.getElementById('monitorcam').style.display ='none';	
+	$("#divrubber").draggable({ cursor: "move" });			
+	//   document.getElementById('divrubber').style.display ='none';	
 	$('#minicolore').minicolors(
 	{
 	opacity:true
@@ -45,7 +47,7 @@
 	<div id="monitorcam" title="drag and drop this monitor" alt="drag and drop this monitor"><video id="video" style="width:320px;height:240px;" autoplay></video></div>	
 <div id="controlli">	
 <div style="float:left;width:90%;height:auto">
-<button id="cancellalavagna" class="btn btn-primary btn-sm">Clear my board</button>&nbsp;&nbsp;<input type="text" class="minicolors form-control input-sm" id="minicolore" value="#000000" data-opacity="1.0" /><br />
+<button id="cancellalavagna" class="btn btn-primary btn-sm">Clear my board</button>&nbsp;&nbsp;<button id="pencilrubber" class="btn btn-primary btn-sm">Eraser</button>&nbsp;&nbsp;<input type="text" class="minicolors form-control input-sm" id="minicolore" value="#000000" data-opacity="1.0" /><br />
 <select id="fontsize" class="form-control input-sm">
   <option value="14" selected="selected">font size</option>
   <option value="8">8</option>
@@ -98,8 +100,7 @@
 <input type="file" id="file-input" class="form-control input-sm">
 <input type="text" id="scrivi" size="auto" class="form-control input-sm" placeholder="Write text then 'enter' to chat" /><br />
 <div id="testichat"></div>
-<audio id="audio1" src="assets/success.wav"  autobuffer></audio>
-<button id="catturacam" class="btn btn-primary btn-sm">PHOTO WEBCAM</button><button id="audiocall" disabled="disabled" class="btn btn-primary btn-sm">OPEN VOICE CALL</button><br />
+<button id="catturacam" class="btn btn-primary btn-sm">PHOTO WEBCAM</button> <button id="audiocall" disabled="disabled" class="btn btn-primary btn-sm">OPEN VOICE CALL</button><br />
 &nbsp;<label class="checkbox-inline"><input type="checkbox" id="autocamabi" value="">Capture image every</label><select id="tempocam" class= "form-control input-sm">
 <option value="1000">1</option>
 <option value="2000">2</option>
@@ -112,7 +113,7 @@
 	<option value="600000">600</option>
 	</select>seconds<br />
 </div>
-<div id="frecce" onMouseOver="javascript:document.getElementById('frecce').style.backgroundColor ='#ffffff';">
+<div id="frecce" onMouseOver='javascript:document.getElementById("frecce").style.backgroundColor ="#ffffff";'>
 
 <span style="font-size:28px;font-weight:"600">&nbsp;<br />&nbsp;<br />P<br />A<br />N<br />E<br />L</span>
 
@@ -123,16 +124,15 @@
 		
  <canvas id="paper">Your browser needs to support canvas for this to work!</canvas>		
 	<canvas id="paper1" style="display:none;" width="320" height="240"> </canvas>
+	<div id="divrubber" title="drag to erase with checkbox signed" alt="drag to erase with checkbox signed"><input type="checkbox" id="controlrubber" name="controlrubber" class="form-control input-sm" /></div>
 		<hgroup id="instructions">		
-			<h1>Draw anywhere!</h1> 
-			<h2>You will see everyone else who's doing the same.</h2>
-			<h3>If you like this web application please click the button LIKE at the bottom of this page</h3>
-		</hgroup>
-		
-        <footer>
-				
-	        <h2><a href="mailto:vrobbi@libero.it" target='_blank'>send me a mail if you want to customer this app</a>&nbsp;&nbsp;&nbsp;<a href="http://www.nuovoweb.eu" target="_blank">www.nuovoweb.eu</a>&nbsp;&nbsp;&nbsp;<a href="https://github.com/vrobbi/whiteboard
-" target="_blank">sources on github</a></h2>
+			<h3>FREE WHITEBOARD COLLABORATIVE FOR MOBILE AND DESKTOP DEVICES WITH CATCHING PHOTOS THROUGH WEBCAM AND TEXT CHAT<br /><br /> TO CREATE YOUR OWN PRIVATE ROOM, TYPE AT THE END OF THE INTERNET ADDRESS, A SEQUENCE OF CHARACTERS OR NUMBERS PRECEDED BY THE CHARACTER # <br />
+			FOR EXAMPLE: https://vrobbi-nodedrawing.herokuapp.com/#myroom123<br />
+			LOADING THE URL ABOVE 'myroom123' WILL BE YOUR PRIVATE ROOM. REMEMBER TO WRITE ONLY CHARACTERS OF TYPE LETTERS AND/OR NUMBERS THEN SEND THIS ADDRESS TO YOUR FRIENDS IN ORDER TO USE THIS BOARD PRIVATELY. <br />Sources on github:  https://github.com/vrobbi/whiteboard<br />For more info&nbsp;&nbsp;&nbsp;vrobbi@libero.it</h3>
+		</hgroup>		
+        <footer>				
+	        <h3><a href="mailto:vrobbi@libero.it" target='_blank'>send me a mail if you want to customer this app</a>&nbsp;&nbsp;&nbsp;<a href="http://www.nuovoweb.eu" target="_blank">www.nuovoweb.eu</a>&nbsp;&nbsp;&nbsp;<a href="https://github.com/vrobbi/whiteboard
+" target="_blank">sources on github</a></h3>
             <p class='tzine' id='onlineCounter' href=''>Users connected: 0</p>
 <div id="fb-root" style="position:absolute;left:0px;bottom:-10px;width:100px;height:auto;"></div>
 <script>(function(d, s, id) {

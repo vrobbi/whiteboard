@@ -1,5 +1,4 @@
 jQuery(function(){
-
 	// This demo depends on the canvas element
 	if(!('getContext' in document.createElement('canvas'))){
 		alert('Sorry, it looks like your browser does not support canvas!');
@@ -13,15 +12,18 @@ jQuery(function(){
 	if (location.href.indexOf('#')!= -1){
 stanza  = location.href.substring(location.href.indexOf('#')+1);
  }
-	
-	var positionx ='23';
+var controlpencil = true;
+var controlrubber = false;
+var positionx ='23';
 	var positiony='0';
+	 var lastEmit = jQuery.now();
 	var touchX,touchY;
 	var iniziotocco= true;
 		
 	var doc = jQuery(document),
 		canvas = jQuery('#paper'),
 		canvas1 = jQuery('#paper1'),
+		divrubber =  jQuery('#divrubber'),
 		frecce =  document.getElementById('frecce'),
 	instructions = jQuery('#instructions');
 var color = '#000000';
@@ -75,8 +77,8 @@ canvas[0].height = window.innerHeight -0;
 
 
     // ctx setup
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     ctx.lineWidth =  2;
  ctx.font = "20px Tahoma";
 
@@ -112,7 +114,20 @@ stanza = data.room;
  document.getElementById('audiocall').disabled = false;
 // document.getElementById('videocall').disabled = false;
 	});
-
+  
+ $("#pencilrubber").click(function() {
+if(document.getElementById('pencilrubber').innerHTML === 'Eraser') {
+document.getElementById('pencilrubber').innerHTML = 'Pencil';		
+document.getElementById('divrubber').style.display = 'block';		
+controlpencil = false;
+rubbersize =  50;
+}else {
+document.getElementById('pencilrubber').innerHTML = 'Eraser';	
+document.getElementById('divrubber').style.display = 'none';
+controlpencil = true;
+}
+ });
+ 
 
 jQuery('#scrivi').keypress(function(e){
 var code = e.keyCode;
@@ -208,10 +223,6 @@ jQuery('#audiocall').click(function (){
 window.open('https://vrobbi-signalmaster.herokuapp.com/soloaudio.html#' + stanza, 'WEBRTC VOICE CALL','width=700,height=400');									  
 });
 
- 
- jQuery('#inforoom').click(function (){
-alert('TO CREATE YOUR OWN PRIVATE ROOM, TYPE AT THE END OF THE INTERNET ADDRESS, A SEQUENCE OF CHARACTERS OR NUMBERS PRECEDED BY THE CHARACTER # FOR EXAMPLE:\n\r https:\/\/vrobbi-nodedrawing.herokuapp.com\/#myroom123  WHERE \'myroom123\' WILL BE YOUR PRIVATE ROOM\n\r REMEMBER TO WRITE ONLY CHARACTERS OF TYPE LETTERS AND/OR NUMBERS THEN SEND THIS ADDRESS TO YOUR FRIENDS THAT YOU LIKE TO SHARE PRIVATELY WITH THE USE OF THIS BOARD');						  
-}); 
  
   socket.on('camperaltriser', function (data) {
 var camdaclient = new Image();
@@ -314,6 +325,33 @@ document.getElementById('frecce').style.backgroundColor ='#ffff00';
 		clients[data.id] = data;
 	clients[data.id].updated = jQuery.now() ;
 	 });
+	
+		socket.on('rubberser', function (data) {
+		
+		if(! (data.id in clients)){
+			// a new user has come online. create a cursor for them
+			cursors[data.id] = jQuery('<div class="cursor"><div class="identif">'+ data.usernamerem +'</div>').appendTo('#cursors');
+		}
+	// Move the mouse pointer
+		
+			
+		// Is the user drawing?
+		if(data.controlrubber && clients[data.id]){
+			
+		cursors[data.id].css({
+			'left' : data.x,
+			'top' : data.y
+		});	
+
+ctx.clearRect(data.x, data.y, data.width, data.height);		
+
+		}
+		
+		// Saving the current client state
+		clients[data.id] = data;
+    clients[data.id].updated = jQuery.now() ;
+	 });
+
 
 	var prev = {};
 
@@ -351,8 +389,8 @@ socket.emit('mousemove',{
 				'spessremo' : document.getElementById('spessore').value,
 				'room' : stanza
 			});	
-drawing = true;
 jQuery(".cursor").css( "zIndex", 6);
+drawing = true;
 // Hide the instructions
 		instructions.fadeOut();
 
@@ -366,10 +404,8 @@ jQuery(".cursor").css( "zIndex", 8);
 
 canvas[0].addEventListener('touchmove', function (e) {
 e.preventDefault();
-
 if(jQuery.now() - lastEmit > 25){
-
-if(drawing){
+if(controlpencil){
 prev.x = touchX;
 prev.y = touchY;
 	getTouchPos();
@@ -381,50 +417,60 @@ prev.y = touchY;
 				'x': touchX,
 				'y': touchY,
 				'drawing': drawing,
+				'color': $('#minicolore').minicolors('rgbaString'),
+				'id': id,
+				'usernamerem' : username,
+				'spessremo' : document.getElementById('spessore').value,
+				'room' : stanza
+			});		
+		}}
+
+}, false);
+      
+canvas.on('mousedown', function(e){
+		e.preventDefault();
+		prev.x = e.pageX;
+		prev.y = e.pageY;
+  socket.emit('mousemove',{
+				'x': prev.x,
+				'y': prev.y,
+				'drawing': drawing,
                 'color': $('#minicolore').minicolors('rgbaString'),
 				'id': id,
 				'usernamerem' : username,
 				'spessremo' : document.getElementById('spessore').value,
 				'room' : stanza
-			});	
-	
-		} }
+			});
 
-}, false);
-      
-	canvas.on('mousedown', function(e){
-		e.preventDefault();
 		drawing = true;
-		prev.x = e.pageX;
-		prev.y = e.pageY;
-jQuery(".cursor").css( "zIndex", 6);		
+		jQuery(".cursor").css( "zIndex", 6);		
 		// Hide the instructions
 		instructions.fadeOut();
 	});
 	
-	canvas.bind('mouseup mouseleave', function(){
+	canvas.on('mouseup mouseleave', function(){
 drawing = false;
 jQuery(".cursor").css( "zIndex", 8);
 	});
 
-	var lastEmit = jQuery.now();
-
-	doc.on('mousemove', function(e){
+canvas.on('mousemove', function(e){
+  posmousex = e.pageX;
+	posmousey = e.pageY;
 								 
 		if(jQuery.now() - lastEmit > 25){
 			
-if(drawing){
+if(drawing && (controlpencil)){
        //     ctx.strokeStyle = document.getElementById('minicolore').value;
 			drawLine(prev.x, prev.y, e.pageX, e.pageY);
 			prev.x = e.pageX;
 			prev.y = e.pageY;
-			lastEmit = jQuery.now();
-	}	
-
-			
-			socket.emit('mousemove',{
-				'x': e.pageX,
-				'y': e.pageY,
+		lastEmit = jQuery.now();
+		
+	
+		
+	socket.emit('mousemove',{
+				'x': prev.x,
+				'y': prev.y,
 				'drawing': drawing,
                 'color': $('#minicolore').minicolors('rgbaString'),
 				'id': id,
@@ -433,12 +479,42 @@ if(drawing){
 				'room' : stanza
 			});
 			
-		}
+		}}
 		// Draw a line for the current user's movement, as it is
 		// not received in the socket.on('moving') event above
 		
 			});
+		divrubber.on('mouseup mouseleave', function(e){
+drawing= false;	
+controlrubber= false;
+});
 	
+	divrubber.on('mousemove', function(e){
+if (document.getElementById('controlrubber').checked) {
+
+ctx.clearRect(divrubber.position().left, divrubber.position().top, rubbersize, rubbersize);		
+controlrubber= true;
+
+socket.emit('rubber',{
+				'x': divrubber.position().left,
+				'y': divrubber.position().top,
+				'id': id,				
+				'usernamerem' : username,
+				'controlrubber': controlrubber,
+				'width': rubbersize,
+				'height': rubbersize,
+				'room' : stanza
+				});
+			}
+			 
+	});
+	
+	divrubber.on('mousedown', function(e){
+// controlrubber= true;
+drawing = false;			 
+	});
+
+
 	// Remove inactive clients after 10 seconds of inactivity
     setInterval(function(){
         var totalOnline = 0;
@@ -474,6 +550,8 @@ if(drawing){
 		ctx.moveTo(fromx, fromy);
 		ctx.lineTo(tox, toy);
 		ctx.stroke();
+		fromx = tox;
+		fromy = toy;
 	}
 
 function fileOnload(e) {
