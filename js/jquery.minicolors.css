@@ -1,6 +1,6 @@
 .minicolors {
 	position: relative;
-	display: inline-block;
+	display: inline;
 	z-index: 1;
 }
 
@@ -10,14 +10,14 @@
 
 .minicolors.minicolors-theme-default INPUT {
     margin: 0px;
-	margin-right: 3px;
+	margin-right: 2px;
 	border: solid 1px #CCC;
 	font: 14px sans-serif;
 	width: 65px;
-	height: 16px;
+	height: 18px;
 	border-radius: 0;
 	box-shadow: inset 0 2px 4px rgba(0, 0, 0, .04);
-	padding: 2px;
+	padding: 1px;
 	margin-right: -1px;
 }
 

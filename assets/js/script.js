@@ -117,13 +117,19 @@ stanza = data.room;
   
  $("#pencilrubber").click(function() {
 if(document.getElementById('pencilrubber').innerHTML === 'Eraser') {
+	jQuery('.minicolors').hide();
 document.getElementById('pencilrubber').innerHTML = 'Pencil';		
 document.getElementById('divrubber').style.display = 'block';		
+document.getElementById('setrubbersize').style.display = 'inline';	
+document.getElementById('spessore').style.display = 'none';	
 controlpencil = false;
-rubbersize =  50;
+rubbersize =  divrubber.width();
 }else {
 document.getElementById('pencilrubber').innerHTML = 'Eraser';	
 document.getElementById('divrubber').style.display = 'none';
+document.getElementById('setrubbersize').style.display = 'none';	
+document.getElementById('spessore').style.display = 'inline';
+jQuery('.minicolors').show();
 controlpencil = true;
 }
  });
@@ -492,7 +498,7 @@ controlrubber= false;
 	divrubber.on('mousemove', function(e){
 if (document.getElementById('controlrubber').checked) {
 
-ctx.clearRect(divrubber.position().left, divrubber.position().top, rubbersize, rubbersize);		
+ctx.clearRect(divrubber.position().left, divrubber.position().top, rubbersize+4, rubbersize+4);		
 controlrubber= true;
 
 socket.emit('rubber',{
@@ -501,8 +507,8 @@ socket.emit('rubber',{
 				'id': id,				
 				'usernamerem' : username,
 				'controlrubber': controlrubber,
-				'width': rubbersize,
-				'height': rubbersize,
+				'width': rubbersize+4,
+				'height': rubbersize+4,
 				'room' : stanza
 				});
 			}
@@ -651,6 +657,13 @@ document.getElementById('tempocam').disabled = false;
   }, false);
 
 })();    /////   uscita da (function()
+
+ document.getElementById('setrubbersize').addEventListener('change', function(ev){
+ev.preventDefault();
+divrubber.width (document.getElementById('setrubbersize').value);
+divrubber.height(document.getElementById('setrubbersize').value);
+rubbersize =  divrubber.width();
+  }, false);
 
 
 function resizecanvas (){

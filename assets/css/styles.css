@@ -278,6 +278,11 @@ border-radius: 5px;
 background-color:transparent;
 }
 
+#setrubbersize {
+width:70px;
+display: none;
+height:auto;
+}
 
 
 

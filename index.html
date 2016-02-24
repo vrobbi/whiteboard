@@ -32,8 +32,9 @@
 		
 	<script type="text/javascript">	
 		$(document).ready(function() {
-	$("#divrubber").draggable({ cursor: "move" });			
+//	$("#divrubber").draggable(); 	
 	//   document.getElementById('divrubber').style.display ='none';	
+	$('#divrubber').draggable();
 	$('#minicolore').minicolors(
 	{
 	opacity:true
@@ -47,7 +48,7 @@
 	<div id="monitorcam" title="drag and drop this monitor" alt="drag and drop this monitor"><video id="video" style="width:320px;height:240px;" autoplay></video></div>	
 <div id="controlli">	
 <div style="float:left;width:90%;height:auto">
-<button id="cancellalavagna" class="btn btn-primary btn-sm">Clear my board</button>&nbsp;&nbsp;<button id="pencilrubber" class="btn btn-primary btn-sm">Eraser</button>&nbsp;&nbsp;<input type="text" class="minicolors form-control input-sm" id="minicolore" value="#000000" data-opacity="1.0" /><br />
+<button id="cancellalavagna" class="btn btn-primary btn-sm">Clear my board</button>&nbsp;&nbsp;<button id="pencilrubber" class="btn btn-primary btn-sm">Eraser</button> <input type="number" id="setrubbersize" min="10" max="300" step="5" value="50" class="form-control input-sm" />&nbsp;<input type="text" class="minicolors" id="minicolore" value="#000000" data-opacity="1.0" />
 <select id="fontsize" class="form-control input-sm">
   <option value="14" selected="selected">font size</option>
   <option value="8">8</option>
