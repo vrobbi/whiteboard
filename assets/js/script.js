@@ -52,7 +52,22 @@ if(!username)
 }
 
 
-username = username.substr(0,20);	
+username = username.substr(0,20);
+
+//Error handler for when io is not defined.---------------begin------------------>
+var ERROR;
+try {
+        io.connect(url);
+}catch(err){
+        ERROR = err.message + ", url value is not set line 58 script.js";
+        errorContent = jQuery('#instructions');
+        errorContent.children().css('background-color', 'GhostWhite');
+        errorContent.children().css('color', 'red');
+        errorContent.children().css('font-size', '500%');
+        errorContent.children().html(ERROR);
+};
+//--------------------------------------------------------------------end-------->
+
 var socket = io.connect(url); 
 
 var ctx = canvas[0].getContext('2d');	
