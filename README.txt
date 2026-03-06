@@ -6,7 +6,6 @@ directly from your webcam
 
 
 
-**** Demo on Heroku: https://vrobbi-nodedrawing.herokuapp.com/
 
 
 
